@@ -25,3 +25,4 @@ if (d<0){
     printf("\n net korney");
 } 
 
+
