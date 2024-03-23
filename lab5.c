@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 // Объявление функции из другого файла
 double** perform_operation(double** matrix1, double** matrix2, int n, char operation);
 
