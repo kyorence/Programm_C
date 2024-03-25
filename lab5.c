@@ -5,7 +5,7 @@ double** perform_operation(double** matrix1, double** matrix2, int n, char opera
 int main() {
     int n;
     char operation;
-easesae
+
     printf("Введите размер матриц: ");
     scanf("%d", &n);
 
