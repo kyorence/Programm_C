@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct person {
+    char name[50];
+    char surname[50];
+    int birth_year;
+    char gender;
+    float height;
+} person;
+
+int compare_by_birth_year(const void *a, const void *b) {
+    person *pa = (person *)a;
+    person *pb = (person *)b;
+    return pa->birth_year - pb->birth_year;
+}
+
+int compare_by_name(const void *a, const void *b) {
+    person *pa = (person *)a;
+    person *pb = (person *)b;
+    return strcmp(pa->name, pb->name);
+}
+
+int compare_by_gender(const void *a, const void *b) {
+    person *pa = (person *)a;
+    person *pb = (person *)b;
+    return strcmp(pa->gender, pb->gender);
+}
+
+int compare_by_height(const void *a, const void *b) {
+    person *pa = (person *)a;
+    person *pb = (person *)b;
+    return pa->height - pb->height;
+}
+
+void print_person(person p) {
+    printf("%s %s %d %c %.2fn", p.name, p.surname, p.birth_year, p.gender, p.height);
+}
+
+int main() {
+    person people[] = {
+        {"Олег", "Лапин", 2005, 'M', 1.80},
+        {"Алина", "Петрова", 2003, 'F', 1.65},
+        {"Кирилл", "Белов", 2001, 'M', 1.75},
+        {"Вова", "Пак", 1998, 'F', 1.70},
+        {"Руслан", "Ким", 2000, 'M', 1.85}
+    };
+
+    char field[50];
+    printf("Введите поле для сортировки (имя/фамилия/год рождения/пол/рост): ");
+    scanf("%s", field);
+
+    int (*compare_func)(const void *, const void *);
+    if (strcmp(field, "имя/фамилия") == 0) {
+        compare_func = compare_by_name;
+    } else if (strcmp(field, "год рождения") == 0) {
+        compare_func = compare_by_birth_year;
+    } else if (strcmp(field, "пол") == 0) {
+        compare_func = compare_by_gender;
+    } else if (strcmp(field, "рост") == 0) {
+        compare_func = compare_by_height;
+    } else {
+        printf("Неизвестное поле для сортировкиn");
+        return 1;
+    }
+
+    qsort(people, sizeof(people) / sizeof(person), sizeof(person), compare_func);
+
+    printf("Отсортированный список:n");
+    for (int i = 0; i < sizeof(people) / sizeof(person); i++) {
+        print_person(people[i]);
+    }
+
+    return 0;
+}
