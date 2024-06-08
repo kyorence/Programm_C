@@ -1,0 +1,124 @@
+
+// считывает введенную дату из input.txt
+    input_file = fopen("input.txt", "r");
+    if (input_file == NULL) {
+        perror("ошибка открытия файда");
+        return 1;
+    }
+    fscanf(input_file, "%d %d %d", &day, &month, &year);
+    fclose(input_file);
+
+// рассчитать количество дней
+    start = clock();
+    time_t target_time, current_time;
+    struct tm target_tm, current_tm;
+    target_tm.tm_mday = day;
+    target_tm.tm_mon = month - 1;
+    target_tm.tm_year = year - 1900;
+    target_tm.tm_hour = 0;
+    target_tm.tm_min = 0;
+    target_tm.tm_sec = 0;
+    target_time = mktime(&target_tm);
+    current_time = time(NULL);
+    int days_to_target = (int)difftime(target_time, current_time) / (60 * 60 * 24);
+    printf("дней до намеченной даты: %d\n", days_to_target);
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    FILE *input_file, *output_file;
+    int day, month, year;
+    int m, i, j, sum1, sum2;
+    int matrix1[100][100], matrix2[100][100];
+    clock_t start, end;
+    double time_taken;
+
+// считывает введенную дату из input.txt
+    input_file = fopen("input.txt", "r");
+    if (input_file == NULL) {
+        perror("ошибка открытия файда");
+        return 1;
+    }
+    fscanf(input_file, "%d %d %d", &day, &month, &year);
+    fclose(input_file);
+
+// рассчитать количество дней
+    start = clock();
+    time_t target_time, current_time;
+    struct tm target_tm, current_tm;
+    target_tm.tm_mday = day;
+    target_tm.tm_mon = month - 1;
+    target_tm.tm_year = year - 1900;
+    target_tm.tm_hour = 0;
+    target_tm.tm_min = 0;
+    target_tm.tm_sec = 0;
+    target_time = mktime(&target_tm);
+    current_time = time(NULL);
+    int days_to_target = (int)difftime(target_time, current_time) / (60 * 60 * 24);
+    printf("дней до намеченной даты: %d\n", days_to_target);
+
+//создание две с равными суммами матрицы
+    output_file = fopen("output.txt", "w");
+    if (output_file == NULL) {
+        perror("ошибка открытия файла");
+        return 1;
+    }
+    sum1 = -1;
+    sum2 = -2;
+    while (sum1 != sum2) {
+//создание матрицы
+        printf("создание матрицы 1\n");
+        srand(time(NULL));
+        m = rand() % 10 + 1; //размер матрицы от 1 до 10
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < m; j++) {
+                matrix1[i][j] = rand() % 10; //случайное число от 0 до 9
+            }
+        }
+        sum1 = 0;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < m; j++) {
+                sum1 += matrix1[i][j];
+            }
+        }
+
+
+        printf("создание матрицы 2\n");
+        srand(time(NULL));
+        m = rand() % 10 + 1;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < m; j++) {
+                matrix2[i][j] = rand() % 10;
+            }
+        }
+        sum2 = 0;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < m; j++) {
+                sum2 += matrix2[i][j];
+            }
+        }
+    }
+
+// открывается в output
+    fprintf(output_file, "матрица 1:\n");
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < m; j++) {
+            fprintf(output_file, "%d ", matrix1[i][j]);
+        }
+        fprintf(output_file, "\n");
+    }
+    fprintf(output_file, "матрица 2:\n");
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < m; j++) {
+            fprintf(output_file, "%d ", matrix2[i][j]);
+        }
+        fprintf(output_file, "\n");
+    }
+    fclose(output_file);
+
+    return 0;
+}
